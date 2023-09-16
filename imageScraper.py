@@ -2,19 +2,18 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import json
-i = 10
+import csv
+from PIL import Image
+import os
+i = 5
 overallScript = ""
-for i in range(0, 4):
+for i in range(0, 40):
     html_page = requests.get(
         'https://esahubble.org/images/page/' + str(i) + '/')
     soup = BeautifulSoup(html_page.text, 'html.parser')
-    # element = soup.find("div", {"id": "content"})
-    # element.findChildren()
     script = soup.find("script")
-    # print(script.text)
     overallScript = overallScript + script.text
 l = []
-# print(script.text.split())
 j = []
 line = overallScript.splitlines()
 for i in range(len(line)):
@@ -22,20 +21,47 @@ for i in range(len(line)):
     img = ""
     if "title" in line[i]:
         line[i] = line[i] = line[i][line[i].find("'") + 1:line[i].find(",")-1]
-        j.append(line[i])
+        if "?" in line[i]:
+            line[i] = line[i].replace("?", "")
+        if "/" in line[i]:
+            line[i] = line[i].replace("/", "")
+        j.append([line[i]])
     if "src" in line[i]:
         line[i] = line[i][line[i].find("'") + 1:line[i].find(",")-1]
         l.append(str(line[i]))
-print(len(j), len(l))
-x = []
-for i in range(len(j)):
-    x.append([j[i], l[i]])
-print(x)
+# print(len(j), len(l))
+train = j[:1400]
+test = j[1400:]
+for i in range(len(l)):
+    img = Image.open(requests.get(l[i], stream=True).raw)
+    # path = "../exoFinder/Images"
+    # img.save(path + "/" + j[i]+".jpg")
 
-# Check if a match was found
 
-# print(script)
-# print(element)
-# img = img.nextSibling.nextSibling
-# image = img.findAll('img')
-# print(image)
+def createCSV(array, csvFile):
+
+    csv_file_path = csvFile
+
+    # Write the data to the CSV file
+    with open(csv_file_path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+
+    # Write the data rows
+        writer.writerows(array)
+        print("complete")
+
+
+def ListFiles(directory):
+    fileSize = 0
+    for file in os.listdir(directory):
+        f = os.path.join(directory, file)
+        print(directory)
+        if os.path.isfile(f):
+            fileSize = fileSize + 1
+            print(file, fileSize)
+
+
+createCSV(train, "train.csv")
+createCSV(test, "test.csv")
+
+# ListFiles('C:/Users/justi/OneDrive/Documents/GitHub/exoFinder/Images')

@@ -1,0 +1,38 @@
+@font-face {
+    font-family: arcadeFont;
+    src: url(../Orbitron/Orbitron-VariableFont_wght.ttf)
+}
+* {
+    font-family:arcadeFont;
+    
+}
+body {
+    background-color: #14213d;
+    font: arcadeFont;
+}
+h1{
+    text-align: center;
+    color: #fff;
+} 
+p {
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+}
+footer{
+    /*This footer component scrolls with you as you go up and down the page because it's fixed also there is a little curve to it */
+    background-color: #e5e5e5;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    clear:both;
+    height: 40px;
+    margin: 0px;
+    overflow:hidden;
+    position: absolute;
+    width: 100%;
+}
+.footer p {
+    font-size: 100%;
+    color: black;
+}
