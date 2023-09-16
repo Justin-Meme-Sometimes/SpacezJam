@@ -6,6 +6,10 @@
     font-family:arcadeFont;
     
 }
+img {
+    height: 50%;
+    width: 50%;
+}
 body {
     background-color: #14213d;
     font: arcadeFont;

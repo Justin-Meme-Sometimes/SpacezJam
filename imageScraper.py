@@ -51,14 +51,15 @@ def createCSV(array, csvFile):
         print("complete")
 
 
-def ListFiles(directory):
-    fileSize = 0
+def DeleteFiles(directory):
     for file in os.listdir(directory):
         f = os.path.join(directory, file)
         print(directory)
-        if os.path.isfile(f):
-            fileSize = fileSize + 1
-            print(file, fileSize)
+        try:
+            if os.path.isfile(f):
+                os.unlink(file)
+        except Exception as e:
+            print('Failed to delete %s, Reason: %s' % (file, e))
 
 
 createCSV(train, "train.csv")
